@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NISS Chocolates - Catálogo Digital</title>
+    <style>
+        :root {
+            --color-cacao: #2b1810;
+            --color-chocolate: #4a2810;
+            --color-dorado: #d4af37;
+            --color-crema: #faf6f0;
+            --color-texto: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-crema);
+            color: var(--color-texto);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* BANNER DE BIENVENIDA CON BRILLO CONTINUO */
+        .shine-header-bar {
+            width: 100%;
+            background: linear-gradient(90deg, #2b1810, #d4af37, #4a2810, #d4af37, #2b1810);
+            background-size: 300% 100%;
+            animation: goldGlow 4s infinite linear;
+            height: 6px;
+        }
+
+        @keyframes goldGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            width: 100%;
+            background: linear-gradient(135deg, var(--color-cacao), var(--color-chocolate));
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 28px;
+            letter-spacing: 3px;
+            color: var(--color-dorado);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
+
+        header p {
+            font-size: 14px;
+            color: #e0d0c0;
+            margin-bottom: 15px;
+        }
+
+        .header-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-header {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-header:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-ig {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+        }
+
+        .btn-web {
+            background-color: var(--color-dorado);
+            color: var(--color-cacao);
+        }
+
+        .catalog-container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* TARJETA CON EFECTO DE DESTELLO DORADO AL PASAR EL MOUSE */
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            border: 1px solid #f0e6dc;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(212, 175, 55, 0.4), 
+                rgba(255, 255, 255, 0.7), 
+                transparent
+            );
+            transform: skewX(-25deg);
+            transition: none;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .product-card:hover::before {
+            animation: cardShine 0.85s ease-in-out;
+        }
+
+        @keyframes cardShine {
+            100% { left: 180%; }
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(212, 175, 55, 0.25);
+            border-color: var(--color-dorado);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            background-color: #2b1810;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .badge-cat {
+            align-self: flex-start;
+            background-color: #f5ece5;
+            color: var(--color-chocolate);
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-cacao);
+            margin-bottom: 6px;
+        }
+
+        .product-desc {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .price-tag {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-chocolate);
+            margin-bottom: 12px;
+        }
+
+        .btn-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-order-ig {
+            display: block;
+            width: 100%;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-order-web {
+            display: block;
+            width: 100%;
+            background-color: var(--color-cacao);
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            text-align: center;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-order-ig:hover, .btn-order-web:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        footer {
+            margin-top: auto;
+            width: 100%;
+            background-color: var(--color-cacao);
+            color: #a09080;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="shine-header-bar"></div>
+
+    <header>
+        <h1>NISS CHOCOLATES</h1>
+        <p>Chocolatería Artesanal • Maipú, Santiago</p>
+        <div class="header-links">
+            <a href="https://www.instagram.com/nisschocolates" target="_blank" class="btn-header btn-ig sound-btn">📷 Instagram Oficial</a>
+            <a href="https://nisschocolates.cl" target="_blank" class="btn-header btn-web sound-btn">🌐 Visitar Web Oficial</a>
+        </div>
+    </header>
+
+    <div class="catalog-container">
+        
+        <!-- Producto 1: Bariloches -->
+        <div class="product-card sound-btn">
+            <img src="bariloche.jpg" alt="Caja Bariloches Surtidos" class="product-img">
+            <div class="card-body">
+                <div>
+                    <span class="badge-cat">Bombones Surtidos</span>
+                    <h3 class="product-title">Caja Bariloches Surtidos</h3>
+                    <p class="product-desc">Selección tradicional estilo Bariloche con diversos bocados rellenos de manjar artesanal y finas cremas.</p>
+                </div>
+                <div>
+                    <div class="price-tag">$8.900</div>
+                    <div class="btn-actions">
+                        <a href="https://www.instagram.com/nisschocolates" target="_blank" class="btn-order-ig sound-btn">📩 Pedir por Instagram DM</a>
+                        <a href="https://nisschocolates.cl" target="_blank" class="btn-order-web sound-btn">🛒 Ver en Tienda Web</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producto 2: Bombones Rellenos -->
+        <div class="product-card sound-btn">
+            <img src="bombones reyenos.jpg" alt="Bombones Rellenos Artesanales" class="product-img">
+            <div class="card-body">
+                <div>
+                    <span class="badge-cat">Caja Regalo</span>
+                    <h3 class="product-title">Bombones Rellenos Artesanales</h3>
+                    <p class="product-desc">Bombones moldeados a mano con ganaches de frutas y manjar. Una explosión de sabor y diseño único.</p>
+                </div>
+                <div>
+                    <div class="price-tag">$7.200</div>
+                    <div class="btn-actions">
+                        <a href="https://www.instagram.com/nisschocolates" target="_blank" class="btn-order-ig sound-btn">📩 Pedir por Instagram DM</a>
+                        <a href="https://nisschocolates.cl" target="_blank" class="btn-order-web sound-btn">🛒 Ver en Tienda Web</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producto 3: Caja Sin Azúcar -->
+        <div class="product-card sound-btn">
+            <img src="Caja_Sin_azuca.jpg" alt="Caja de Chocolates Sin Azúcar" class="product-img">
+            <div class="card-body">
+                <div>
+                    <span class="badge-cat">Especiales / Saludable</span>
+                    <h3 class="product-title">Caja de Chocolates Sin Azúcar</h3>
+                    <p class="product-desc">Delicioso equilibrio entre cacao y dulzor sin azúcar añadida, endulzado con maltitol en presentación de corazones.</p>
+                </div>
+                <div>
+                    <div class="price-tag">$7.500</div>
+                    <div class="btn-actions">
+                        <a href="https://www.instagram.com/nisschocolates" target="_blank" class="btn-order-ig sound-btn">📩 Pedir por Instagram DM</a>
+                        <a href="https://nisschocolates.cl" target="_blank" class="btn-order-web sound-btn">🛒 Ver en Tienda Web</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producto 4: Incrustaciones -->
+        <div class="product-card sound-btn">
+            <img src="Incrustaciones.jpg" alt="Caja de Incrustaciones" class="product-img">
+            <div class="card-body">
+                <div>
+                    <span class="badge-cat">Barras e Incrustaciones</span>
+                    <h3 class="product-title">Caja Corazones con Incrustaciones</h3>
+                    <p class="product-desc">Finos corazones de chocolate decorados con trocitos crujientes de frutos secos y texturas artesanales.</p>
+                </div>
+                <div>
+                    <div class="price-tag">$6.800</div>
+                    <div class="btn-actions">
+                        <a href="https://www.instagram.com/nisschocolates" target="_blank" class="btn-order-ig sound-btn">📩 Pedir por Instagram DM</a>
+                        <a href="https://nisschocolates.cl" target="_blank" class="btn-order-web sound-btn">🛒 Ver en Tienda Web</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Catálogo Digital de Asesoría Comercial | NISS Chocolates © 2026</p>
+    </footer>
+
+    <!-- SCRIPT DE AUDIO Y ACTIVACIÓN -->
+    <script>
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playSoftTone() {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // Nota Do (C5) suave
+                osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.1); // Mi (E5)
+
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.1);
+            } catch (e) {
+                // Silencioso si el navegador aún no permite audio
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Habilitar audio con el primer toque o interacción del usuario
+            window.addEventListener('mousemove', initAudio, { once: true });
+            window.addEventListener('touchstart', initAudio, { once: true });
+
+            const soundElements = document.querySelectorAll('.sound-btn');
+            soundElements.forEach(el => {
+                el.addEventListener('mouseenter', playSoftTone);
+            });
+        });
+    </script>
+</body>
+</html>
